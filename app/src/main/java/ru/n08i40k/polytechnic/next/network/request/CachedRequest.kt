@@ -7,31 +7,36 @@ import com.android.volley.toolbox.StringRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import ru.n08i40k.polytechnic.next.PolytechnicApplication
-import ru.n08i40k.polytechnic.next.data.AppContainer
-import ru.n08i40k.polytechnic.next.data.MyResult
+import ru.n08i40k.polytechnic.next.Application
+import ru.n08i40k.polytechnic.next.app.AppContainer
+import ru.n08i40k.polytechnic.next.app.appContainer
 import ru.n08i40k.polytechnic.next.network.NetworkConnection
 import ru.n08i40k.polytechnic.next.network.request.schedule.ScheduleGetCacheStatus
 import ru.n08i40k.polytechnic.next.network.request.schedule.ScheduleUpdate
 import ru.n08i40k.polytechnic.next.network.tryFuture
 import ru.n08i40k.polytechnic.next.network.tryGet
+import ru.n08i40k.polytechnic.next.utils.MyResult
 import java.util.logging.Logger
 import java.util.regex.Pattern
 
 open class CachedRequest(
-    context: Context,
+    appContainer: AppContainer,
     method: Int,
     private val url: String,
     private val listener: Response.Listener<String>,
     errorListener: Response.ErrorListener?,
-) : AuthorizedRequest(context, method, url, {
-    runBlocking(Dispatchers.IO) {
-        (context as PolytechnicApplication)
-            .container.networkCacheRepository.put(url, it)
-    }
-    listener.onResponse(it)
-}, errorListener) {
-    private val appContainer: AppContainer = (context as PolytechnicApplication).container
+) : AuthorizedRequest(
+    appContainer,
+    method,
+    url,
+    {
+        runBlocking(Dispatchers.IO) {
+            appContainer.networkCacheRepository.put(url, it)
+        }
+        listener.onResponse(it)
+    },
+    errorListener
+) {
 
     private suspend fun getXlsUrl(): MyResult<String> = withContext(Dispatchers.IO) {
         val mainPageFuture = RequestFuture.newFuture<String>()
@@ -41,7 +46,7 @@ open class CachedRequest(
             mainPageFuture,
             mainPageFuture
         )
-        NetworkConnection.getInstance(context).addToRequestQueue(request)
+        NetworkConnection.getInstance(appContext).addToRequestQueue(request)
 
         val response = tryGet(mainPageFuture)
         if (response is MyResult.Failure)
@@ -49,7 +54,8 @@ open class CachedRequest(
 
         val pageData = (response as MyResult.Success).data
 
-        val remoteConfig = (context.applicationContext as PolytechnicApplication).container.remoteConfig
+        val remoteConfig =
+            (appContext.applicationContext as Application).container.remoteConfig
 
         val pattern: Pattern =
             Pattern.compile(remoteConfig.getString("linkParserRegex"), Pattern.MULTILINE)
@@ -67,10 +73,10 @@ open class CachedRequest(
             when (val xlsUrl = getXlsUrl()) {
                 is MyResult.Failure -> xlsUrl
                 is MyResult.Success -> {
-                    tryFuture {
+                    tryFuture(appContext) { it ->
                         ScheduleUpdate(
+                            appContext.appContainer,
                             ScheduleUpdate.RequestDto(xlsUrl.data),
-                            context,
                             it,
                             it
                         )
@@ -80,23 +86,24 @@ open class CachedRequest(
         }
     }
 
-    override fun send() {
+    override fun send(context: Context) {
+        // TODO: network cache
         val logger = Logger.getLogger("CachedRequest")
-        val repository = appContainer.networkCacheRepository
+        val cache = appContainer.networkCacheRepository
 
-        val cacheStatusResult = tryFuture {
-            ScheduleGetCacheStatus(context, it, it)
+        val cacheStatusResult = tryFuture(context) {
+            ScheduleGetCacheStatus(appContainer, it, it)
         }
 
         if (cacheStatusResult is MyResult.Success) {
             val cacheStatus = cacheStatusResult.data
 
             runBlocking {
-                repository.setUpdateDates(
+                cache.setUpdateDates(
                     cacheStatus.lastCacheUpdate,
                     cacheStatus.lastScheduleUpdate
                 )
-                repository.setHash(cacheStatus.cacheHash)
+                cache.setHash(cacheStatus.cacheHash)
             }
 
             if (cacheStatus.cacheUpdateRequired) {
@@ -105,11 +112,11 @@ open class CachedRequest(
                 when (updateResult) {
                     is MyResult.Success -> {
                         runBlocking {
-                            repository.setUpdateDates(
+                            cache.setUpdateDates(
                                 updateResult.data.lastCacheUpdate,
                                 updateResult.data.lastScheduleUpdate
                             )
-                            repository.setHash(updateResult.data.cacheHash)
+                            cache.setHash(updateResult.data.cacheHash)
                         }
                     }
 
@@ -122,12 +129,12 @@ open class CachedRequest(
             logger.warning("Failed to get cache status!")
         }
 
-        val cachedResponse = runBlocking { repository.get(url) }
+        val cachedResponse = runBlocking { cache.get(url) }
         if (cachedResponse != null) {
             listener.onResponse(cachedResponse.data)
             return
         }
 
-        super.send()
+        super.send(context)
     }
 }

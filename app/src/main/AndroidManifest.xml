@@ -2,48 +2,40 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- bruh -->
+    <!-- чтооооо не может быть, мне нужен интернет? правда? -->
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- For posting notifications from FCM and CLV services -->
+    <!-- нихуя себе что это такое -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
-    <!-- For CLV service able to work -->
+    <!-- ну это по приколу добавил конечно же -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 
     <application
-        android:name=".PolytechnicApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
+        android:name=".Application"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/Theme.PolytechnicNext"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Polytechnic"
         tools:targetApi="35">
 
         <service
-            android:name=".service.MyFirebaseMessagingService"
+            android:name=".service.FCMService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <service
-            android:name=".service.CurrentLessonViewService"
-            android:exported="false"
-            android:foregroundServiceType="specialUse">
-            <property
-                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
-                android:value="Service for viewing current lesson in notification." />
-        </service>
-
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.PolytechnicNext">
+            android:theme="@style/Theme.Polytechnic">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

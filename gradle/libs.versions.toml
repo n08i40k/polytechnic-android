@@ -1,63 +1,73 @@
 [versions]
-accompanistSwiperefresh = "0.36.0"
-agp = "8.7.3"
-firebaseBom = "33.7.0"
-hiltAndroid = "2.53.1"
-hiltAndroidCompiler = "2.53.1"
-hiltNavigationCompose = "1.2.0"
+agp = "8.8.0"
+desugar_jdk_libs = "2.1.4"
 kotlin = "2.0.10"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-kotlinxSerializationJson = "1.7.3"
 lifecycleRuntimeKtx = "2.8.7"
-activityCompose = "1.9.3"
-composeBom = "2024.12.01"
-mockitoKotlin = "5.4.0"
+activityCompose = "1.10.0"
+composeBom = "2025.01.00"
+accompanistSwiperefresh = "0.36.0"
+firebaseBom = "33.8.0"
+hiltAndroid = "2.53.1"
+hiltAndroidCompiler = "2.53.1"
+hiltNavigationCompose = "1.2.0"
+kotlinxSerializationJson = "1.7.3"
 protobufLite = "3.0.1"
 volley = "1.2.1"
-datastore = "1.1.1"
+datastore = "1.1.2"
 navigationCompose = "2.8.5"
 googleFirebaseCrashlytics = "3.0.2"
 workRuntime = "2.10.0"
+vkid = "2.2.2"
 
 [libraries]
-accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanistSwiperefresh" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
-androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "workRuntime" }
-androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntime" }
-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-androidx-datastore = { group ="androidx.datastore", name = "datastore", version.ref="datastore"}
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version = "1.7.6" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+
+accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanistSwiperefresh" }
+
+androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "workRuntime" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntime" }
+
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+
+androidx-datastore = { group ="androidx.datastore", name = "datastore", version.ref="datastore"}
+protobuf-lite = { module = "com.google.protobuf:protobuf-lite", version.ref = "protobufLite" }
+
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.6.1" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
-mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
-protobuf-lite = { module = "com.google.protobuf:protobuf-lite", version.ref = "protobufLite" }
 volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
+
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
-firebase-analytics = { module = "com.google.firebase:firebase-analytics", version = "22.1.2" }
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version = "19.3.0" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics", version = "22.2.0" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version = "19.4.0" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version = "24.1.0" }
-firebase-config = { group = "com.google.firebase", name = "firebase-config", version = "22.0.1" }
+firebase-config = { group = "com.google.firebase", name = "firebase-config", version = "22.1.0" }
+vk-vkid = {group = "com.vk.id", name = "vkid", version.ref = "vkid" }
+vk-onetap-compose = {group = "com.vk.id", name = "onetap-compose", version.ref = "vkid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "googleFirebaseCrashlytics" }

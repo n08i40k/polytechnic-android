@@ -3,6 +3,7 @@ package ru.n08i40k.polytechnic.next.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
+import ru.n08i40k.polytechnic.next.utils.dateTime
 import java.util.Calendar
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -14,12 +15,16 @@ data class GroupOrTeacher(
 ) : Parcelable {
     val currentIdx: Int?
         get() {
-            val currentDay = (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 2)
+            val currentDay = (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 2) + 1
 
-            if (currentDay < 0 || currentDay > days.size - 1)
+            val day = days.filter {
+                it.date.dateTime.date.dayOfWeek.value == currentDay
+            }
+
+            if (day.isEmpty())
                 return null
 
-            return currentDay
+            return days.indexOf(day[0])
         }
 
     val current: Day?
@@ -27,6 +32,8 @@ data class GroupOrTeacher(
             return days.getOrNull(currentIdx ?: return null)
         }
 
+    // TODO: вернуть
+    @Suppress("unused")
     val currentKV: Pair<Int, Day>?
         get() {
             val idx = currentIdx ?: return null

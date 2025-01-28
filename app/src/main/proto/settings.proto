@@ -17,7 +17,12 @@ message Settings {
   string user_id = 1;
   string access_token = 2;
   string group = 3;
+
   map<string, CachedResponse> cache_storage = 4;
   UpdateDates update_dates = 5;
+
   string version = 6;
+  string suppressed_version = 7;
+
+  string fcm_token = 8;
 }

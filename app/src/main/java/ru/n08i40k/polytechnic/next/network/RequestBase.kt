@@ -6,13 +6,12 @@ import com.android.volley.toolbox.StringRequest
 import java.util.logging.Logger
 
 open class RequestBase(
-    protected val context: Context,
     method: Int,
     url: String?,
     listener: Response.Listener<String>,
     errorListener: Response.ErrorListener?
 ) : StringRequest(method, NetworkValues.API_HOST + url, listener, errorListener) {
-    open fun send() {
+    open fun send(context: Context) {
         Logger.getLogger("RequestBase").info("Sending request to $url")
         NetworkConnection.getInstance(context).addToRequestQueue(this)
     }

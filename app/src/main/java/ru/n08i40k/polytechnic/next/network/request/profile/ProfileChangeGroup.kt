@@ -1,19 +1,19 @@
 package ru.n08i40k.polytechnic.next.network.request.profile
 
-import android.content.Context
 import com.android.volley.Response
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import ru.n08i40k.polytechnic.next.app.AppContainer
 import ru.n08i40k.polytechnic.next.network.request.AuthorizedRequest
 
 class ProfileChangeGroup(
+    appContainer: AppContainer,
     private val data: RequestDto,
-    context: Context,
     listener: Response.Listener<Nothing>,
     errorListener: Response.ErrorListener?
 ) : AuthorizedRequest(
-    context,
+    appContainer,
     Method.POST,
     "v1/users/change-group",
     { listener.onResponse(null) },

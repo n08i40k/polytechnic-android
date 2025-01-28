@@ -18,42 +18,32 @@ data class Lesson(
     val group: String? = null,
     val subGroups: List<SubGroup>
 ) : Parcelable {
-    val duration: Int
-        get() {
-            val startMinutes = time.start.dayMinutes
-            val endMinutes = time.end.dayMinutes
+    // TODO: вернуть
+    @Suppress("unused")
+    val duration get() = time.end.dayMinutes - time.start.dayMinutes
 
-            return endMinutes - startMinutes
-        }
-
+    @Suppress("unused")
     fun getNameAndCabinetsShort(context: Context): String {
         val name =
-            if (type == LessonType.BREAK) context.getString(R.string.lesson_break)
+            if (type == LessonType.BREAK) context.getString(
+                if (group == null)
+                    R.string.student_break
+                else
+                    R.string.teacher_break
+            )
             else this.name
 
-        val limitedName = name!! limit 15
+        val shortName = name!! limit 15
+        val cabinetList = subGroups.map { it.cabinet }
 
-        val cabinets = subGroups.map { it.cabinet }
+        if (cabinetList.isEmpty())
+            return shortName
 
-        if (cabinets.isEmpty())
-            return limitedName
+        if (cabinetList.size == 1 && cabinetList[0] == "с/з")
+            return "$shortName ${context.getString(R.string.in_gym_lc)}"
 
-        if (cabinets.size == 1 && cabinets[0] == "с/з")
-            return buildString {
-                append(limitedName)
-                append(" ")
-                append(context.getString(R.string.in_gym_lc))
-            }
-
-        return buildString {
-            append(limitedName)
-            append(" ")
-            append(
-                context.getString(
-                    R.string.in_cabinets_short_lc,
-                    cabinets.joinToString(", ")
-                )
-            )
-        }
+        val cabinets =
+            context.getString(R.string.in_cabinets_short_lc, cabinetList.joinToString(", "))
+        return "$shortName $cabinets"
     }
 }

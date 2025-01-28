@@ -1,11 +1,11 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.proto
-
 
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.compose)
 
     kotlin("plugin.serialization") version "2.0.20"
     id("kotlin-parcelize")
@@ -18,9 +18,22 @@ plugins {
     alias(libs.plugins.google.firebase.crashlytics)
 
     id("com.google.dagger.hilt.android")
+
+    id("vkid.manifest.placeholders") version "1.1.0" apply true
 }
 
+val localProperties = gradleLocalProperties(rootDir, providers)
+
 android {
+    signingConfigs {
+        create("release") {
+            storeFile = file(localProperties.getProperty("sign.storeFile"))
+            keyAlias = localProperties.getProperty("sign.keyAlias")
+            storePassword = localProperties.getProperty("sign.storePassword")
+            keyPassword = localProperties.getProperty("sign.keyPassword")
+        }
+    }
+
     namespace = "ru.n08i40k.polytechnic.next"
     compileSdk = 35
 
@@ -33,13 +46,10 @@ android {
         applicationId = "ru.n08i40k.polytechnic.next"
         minSdk = 26
         targetSdk = 35
-        versionCode = 23
-        versionName = "2.3.0"
+        versionCode = 25
+        versionName = "3.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
     }
 
     buildTypes {
@@ -49,11 +59,14 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = "11"
@@ -63,11 +76,6 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
     }
 
     sourceSets {
@@ -90,6 +98,15 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
+
+    // vk
+    implementation(libs.vk.vkid)
+    implementation(libs.vk.onetap.compose)
+
+    // internet
+    implementation(libs.volley)
+
     // work manager
     implementation(libs.androidx.work.runtime)
     implementation(libs.androidx.work.runtime.ktx)
@@ -116,6 +133,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.datetime)
 
+    // default
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -124,13 +142,10 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.volley)
     implementation(libs.androidx.navigation.compose)
 
+    // test
     testImplementation(libs.junit)
-    testImplementation(libs.mockito.kotlin)
-
-
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

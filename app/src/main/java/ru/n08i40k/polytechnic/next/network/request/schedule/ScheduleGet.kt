@@ -1,20 +1,20 @@
 package ru.n08i40k.polytechnic.next.network.request.schedule
 
-import android.content.Context
 import com.android.volley.Response
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import ru.n08i40k.polytechnic.next.app.AppContainer
 import ru.n08i40k.polytechnic.next.model.GroupOrTeacher
 import ru.n08i40k.polytechnic.next.network.request.CachedRequest
 
 class ScheduleGet(
-    context: Context,
+    appContainer: AppContainer,
     listener: Response.Listener<ResponseDto>,
     errorListener: Response.ErrorListener? = null
 ) : CachedRequest(
-    context,
+    appContainer,
     Method.GET,
-    "v4/schedule/group",
+    "v1/schedule/group",
     { listener.onResponse(Json.decodeFromString(it)) },
     errorListener
 ) {

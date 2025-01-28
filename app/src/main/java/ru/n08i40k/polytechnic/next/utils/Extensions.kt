@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package ru.n08i40k.polytechnic.next.utils
 
 import kotlinx.datetime.Clock
@@ -5,7 +7,10 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 infix fun <T> T?.or(data: T): T {
     if (this == null)
@@ -52,4 +57,9 @@ val Instant.dateTime: LocalDateTime
 fun LocalDateTime.Companion.now(): LocalDateTime {
     val clock = Clock.System.now()
     return clock.toLocalDateTime(TimeZone.currentSystemDefault())
+}
+
+fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
+    val formatter = SimpleDateFormat(format, locale)
+    return formatter.format(this)
 }

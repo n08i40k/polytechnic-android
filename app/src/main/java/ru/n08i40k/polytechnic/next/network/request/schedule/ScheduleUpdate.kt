@@ -1,21 +1,21 @@
 package ru.n08i40k.polytechnic.next.network.request.schedule
 
-import android.content.Context
 import com.android.volley.Response
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import ru.n08i40k.polytechnic.next.app.AppContainer
 import ru.n08i40k.polytechnic.next.network.request.AuthorizedRequest
 
 class ScheduleUpdate(
+    appContainer: AppContainer,
     private val data: RequestDto,
-    context: Context,
     listener: Response.Listener<ScheduleGetCacheStatus.ResponseDto>,
     errorListener: Response.ErrorListener? = null
 ) : AuthorizedRequest(
-    context,
+    appContainer,
     Method.PATCH,
-    "v4/schedule/update-download-url",
+    "v1/schedule/update-download-url",
     { listener.onResponse(Json.decodeFromString(it)) },
     errorListener
 ) {

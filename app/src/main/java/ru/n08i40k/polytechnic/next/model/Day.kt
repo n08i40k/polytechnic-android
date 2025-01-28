@@ -26,8 +26,8 @@ data class Day(
 
     val street: String? = null
 ) : Parcelable {
-    constructor(name: String, date: Instant, lessons: List<Lesson>) : this(
-        name, date.toEpochMilliseconds(), lessons
+    constructor(name: String, date: Instant, lessons: List<Lesson>, street: String?) : this(
+        name, date.toEpochMilliseconds(), lessons, street
     )
 
     val date: Instant

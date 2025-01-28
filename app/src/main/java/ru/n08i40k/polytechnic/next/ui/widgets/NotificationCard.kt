@@ -73,6 +73,7 @@ fun NotificationCard(
     val colors = when (level) {
         Level.WARNING -> {
             val colorFamily = extendedColorScheme().warning
+
             CardDefaults.cardColors(
                 containerColor = colorFamily.colorContainer,
                 contentColor = colorFamily.onColorContainer
