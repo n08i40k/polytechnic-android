@@ -1,6 +1,10 @@
 package ru.n08i40k.polytechnic.next
 
+import android.Manifest
 import android.app.Application
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.core.content.ContextCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
@@ -36,40 +40,43 @@ class Application : Application() {
         get() = applicationContext.packageManager
             .getPackageInfo(this.packageName, 0)
             .versionName!!
-//    val version
-//        get() = "2.0.2"
 
-    private fun scheduleUpdateLinkWorker() {
-        container.remoteConfig.activate().addOnCompleteListener {
-            UpdateLinkWorker.schedule(this@Application)
-        }
-    }
+    // permissions
+    val hasNotificationPermission: Boolean
+        get() =
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
+                    || ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
 
-    private fun fixupToken() {
-        if (runBlocking { settings.data.map { it.fcmToken }.first() }.isNotEmpty())
-            return
-
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(object :
-            OnCompleteListener<String> {
-            override fun onComplete(token: Task<String?>) {
-                if (!token.isSuccessful)
-                    return
-
-                UpdateFCMTokenWorker.schedule(applicationContext, token.result!!)
+    private fun setupFirebase() {
+        fun scheduleUpdateLinkWorker() {
+            container.remoteConfig.activate().addOnCompleteListener {
+                UpdateLinkWorker.schedule(this@Application)
             }
-        })
-    }
+        }
 
-    override fun onCreate() {
-        super.onCreate()
+        fun fixupToken() {
+            if (runBlocking { settings.data.map { it.fcmToken }.first() }.isNotEmpty())
+                return
 
-        VKID.init(this)
+            FirebaseMessaging.getInstance().token.addOnCompleteListener(object :
+                OnCompleteListener<String> {
+                override fun onComplete(token: Task<String?>) {
+                    if (!token.isSuccessful)
+                        return
+
+                    UpdateFCMTokenWorker.schedule(applicationContext, token.result!!)
+                }
+            })
+        }
 
         val remoteConfig = container.remoteConfig
 
-        remoteConfig.setConfigSettingsAsync(remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 3600
-        })
+        remoteConfig.setConfigSettingsAsync(
+            remoteConfigSettings { minimumFetchIntervalInSeconds = 3600 }
+        )
         remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
 
         remoteConfig.addOnConfigUpdateListener(object : ConfigUpdateListener {
@@ -85,5 +92,13 @@ class Application : Application() {
 
         scheduleUpdateLinkWorker()
         fixupToken()
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+
+        VKID.init(this)
+
+        setupFirebase()
     }
 }

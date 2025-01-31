@@ -89,4 +89,15 @@
     <string name="schedule_channel_description">Inform when schedule has been updated</string>
     <string name="app_update_channel_name">Application update</string>
     <string name="app_update_channel_description">Inform about a new version of this app has been released</string>
+    <string name="day_view_title">Loading schedule…</string>
+    <string name="day_view_description">This notification will be updated in several seconds!</string>
+    <string name="day_view_wait_for_begin_title">%1$d h. %2$d min. before lessons start</string>
+    <string name="day_view_lessons_end">Lessons end</string>
+    <string name="day_view_going_description">%1$s\n| After in %2$s - %3$s</string>
+    <string name="day_view_not_started">Lessons haven\'t started yet</string>
+    <string name="day_view_going_title">To end %1$d h. %2$d min.</string>
+    <string name="day_view_end_title">Lessons finished!</string>
+    <string name="day_view_end_description">ya ne budu eto perevidit\'</string>
+    <string name="day_view_channel_name">Current lesson</string>
+    <string name="day_view_channel_description">View the current lesson and breaks in notification</string>
 </resources>

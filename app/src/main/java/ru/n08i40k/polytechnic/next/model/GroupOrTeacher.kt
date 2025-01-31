@@ -31,12 +31,4 @@ data class GroupOrTeacher(
         get() {
             return days.getOrNull(currentIdx ?: return null)
         }
-
-    // TODO: вернуть
-    @Suppress("unused")
-    val currentKV: Pair<Int, Day>?
-        get() {
-            val idx = currentIdx ?: return null
-            return Pair(idx, days[idx])
-        }
 }

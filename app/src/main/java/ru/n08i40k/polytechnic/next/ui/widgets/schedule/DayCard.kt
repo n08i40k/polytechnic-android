@@ -82,7 +82,7 @@ fun DayCard(
     modifier: Modifier = Modifier,
     day: Day = MockScheduleRepository.exampleTeacher.days[0]
 ) {
-    val offset = remember { getDayOffset(day) }
+    val offset = remember(day) { getDayOffset(day) }
 
     val defaultCardColors = CardDefaults.cardColors(
         containerColor = MaterialTheme.colorScheme.secondaryContainer,

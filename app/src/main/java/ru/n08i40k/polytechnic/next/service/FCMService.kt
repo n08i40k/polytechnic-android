@@ -11,19 +11,21 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import ru.n08i40k.polytechnic.next.R
 import ru.n08i40k.polytechnic.next.app.NotificationChannels
+import ru.n08i40k.polytechnic.next.utils.app
 import ru.n08i40k.polytechnic.next.worker.UpdateFCMTokenWorker
 
+
+private interface MessageHandler {
+    fun execute(service: FCMService)
+}
 
 private data class ScheduleUpdateData(
     val type: String,
     val replaced: Boolean,
     val etag: String
-) {
+) : MessageHandler {
     constructor(message: RemoteMessage) : this(
         type = message.data["type"]
             ?: throw IllegalArgumentException("Type is missing in RemoteMessage"),
@@ -33,7 +35,7 @@ private data class ScheduleUpdateData(
             ?: throw IllegalArgumentException("Etag is missing in RemoteMessage")
     )
 
-    fun handleMessage(service: FCMService) {
+    override fun execute(service: FCMService) {
         service.sendNotification(
             NotificationChannels.SCHEDULE_UPDATE,
             R.drawable.schedule,
@@ -51,20 +53,14 @@ private data class ScheduleUpdateData(
 
 private data class LessonsStartData(
     val type: String
-) {
+) : MessageHandler {
     constructor(message: RemoteMessage) : this(
         type = message.data["type"]
             ?: throw IllegalArgumentException("Type is missing in RemoteMessage")
     )
 
-    // TODO: вернуть
-    @Suppress("unused")
-    fun handleMessage(service: FCMService) {
-        // Uncomment and implement if needed
-        // service.scope.launch {
-        //     CurrentLessonViewService
-        //         .startService(service.applicationContext as PolytechnicApplication)
-        // }
+    override fun execute(service: FCMService) {
+        DayViewService.start(service.app)
     }
 }
 
@@ -72,7 +68,7 @@ private data class AppUpdateData(
     val type: String,
     val version: String,
     val downloadLink: String
-) {
+) : MessageHandler {
     constructor(message: RemoteMessage) : this(
         type = message.data["type"]
             ?: throw IllegalArgumentException("Type is missing in RemoteMessage"),
@@ -82,7 +78,7 @@ private data class AppUpdateData(
             ?: throw IllegalArgumentException("DownloadLink is missing in RemoteMessage")
     )
 
-    fun handleMessage(service: FCMService) {
+    override fun execute(service: FCMService) {
         service.sendNotification(
             NotificationChannels.APP_UPDATE,
             R.drawable.download,
@@ -95,10 +91,6 @@ private data class AppUpdateData(
 }
 
 class FCMService : FirebaseMessagingService() {
-    // TODO: вернуть
-    @Suppress("unused")
-    private val scope = CoroutineScope(Job() + Dispatchers.Main)
-
     override fun onNewToken(token: String) {
         super.onNewToken(token)
 
@@ -149,10 +141,11 @@ class FCMService : FirebaseMessagingService() {
         val type = message.data["type"]
 
         when (type) {
-            "schedule-update" -> ScheduleUpdateData(message).handleMessage(this)
-            "lessons-start"   -> LessonsStartData(message).handleMessage(this)
-            "app-update"      -> AppUpdateData(message).handleMessage(this)
-        }
+            "schedule-update" -> ScheduleUpdateData(message)
+            "lessons-start"   -> LessonsStartData(message)
+            "app-update"      -> AppUpdateData(message)
+            else              -> null
+        }?.execute(this)
 
         super.onMessageReceived(message)
     }

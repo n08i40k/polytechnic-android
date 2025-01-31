@@ -89,4 +89,15 @@
     <string name="schedule_channel_description">Уведомления об обновлении расписания</string>
     <string name="app_update_channel_name">Обновления приложения</string>
     <string name="app_update_channel_description">Уведомления о выходе новой версии этого приложения</string>
+    <string name="day_view_title">Загрузка расписания…</string>
+    <string name="day_view_description">Это уведомление обновится в течение нескольких секунд!</string>
+    <string name="day_view_not_started">Пары ещё не начались</string>
+    <string name="day_view_going_title">До конца %1$d ч. %2$d мин.</string>
+    <string name="day_view_wait_for_begin_title">До начала пар %1$d ч. %2$d мин.</string>
+    <string name="day_view_lessons_end">Конец пар</string>
+    <string name="day_view_going_description">%1$s\n| Далее в %2$s - %3$s</string>
+    <string name="day_view_end_title">Пары закончились!</string>
+    <string name="day_view_end_description">Ура, можно идти домой! Наверное :(</string>
+    <string name="day_view_channel_name">Текущая пара</string>
+    <string name="day_view_channel_description">Отображает текущую пару или перемену в уведомлении</string>
 </resources>

@@ -46,8 +46,8 @@ android {
         applicationId = "ru.n08i40k.polytechnic.next"
         minSdk = 26
         targetSdk = 35
-        versionCode = 25
-        versionName = "3.0.1"
+        versionCode = 27
+        versionName = "3.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -55,6 +55,8 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

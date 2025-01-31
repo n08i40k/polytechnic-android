@@ -87,7 +87,6 @@ open class CachedRequest(
     }
 
     override fun send(context: Context) {
-        // TODO: network cache
         val logger = Logger.getLogger("CachedRequest")
         val cache = appContainer.networkCacheRepository
 

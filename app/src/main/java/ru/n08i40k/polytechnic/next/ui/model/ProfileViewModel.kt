@@ -54,8 +54,6 @@ class ProfileViewModel @Inject constructor(
         refresh()
     }
 
-    // TODO: сделать хук на unauthorized и сделать так что бы waiter удалялся, если сход контекст
-
     fun refresh(): SingleHook<Profile?> {
         val singleHook = SingleHook<Profile?>()
 

@@ -3,7 +3,6 @@ package ru.n08i40k.polytechnic.next.network.request
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.VolleyError
-import jakarta.inject.Singleton
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
@@ -22,30 +21,12 @@ open class AuthorizedRequest(
     method,
     url,
     listener,
-    @Singleton
     object : Response.ErrorListener {
         override fun onErrorResponse(error: VolleyError?) {
-            val context = appContainer.context
-
-            if (!canBeUnauthorized && error is AuthFailureError) {
-                runBlocking {
-                    context.settings.updateData { currentSettings ->
-                        currentSettings
-                            .toBuilder()
-                            .clear()
-                            .build()
-                    }
-                }
-
-                // TODO: если не авторизован
-//            if (context.profileViewModel != null)
-//                context.profileViewModel!!.onUnauthorized()
-            }
-
-            runBlocking { appContainer.profileRepository.signOut() }
+            if (!canBeUnauthorized && error is AuthFailureError)
+                runBlocking { appContainer.profileRepository.signOut() }
 
             errorListener?.onErrorResponse(error)
-
         }
     }) {
 
@@ -58,15 +39,11 @@ open class AuthorizedRequest(
                 .first()
         }
 
-        // TODO: если не авторизован
-//        if (accessToken.isEmpty() && context.profileViewModel != null)
-//            context.profileViewModel!!.onUnauthorized()
-
         val headers = super.getHeaders()
         headers["Authorization"] = "Bearer $accessToken"
 
         return headers
     }
 
-    val appContext get() = appContainer.context
+    protected val appContext get() = appContainer.context
 }

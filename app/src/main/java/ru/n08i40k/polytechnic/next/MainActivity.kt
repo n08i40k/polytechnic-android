@@ -3,8 +3,6 @@ package ru.n08i40k.polytechnic.next
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,7 +17,6 @@ import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
@@ -28,6 +25,7 @@ import ru.n08i40k.polytechnic.next.app.NotificationChannels
 import ru.n08i40k.polytechnic.next.settings.settings
 import ru.n08i40k.polytechnic.next.ui.PolytechnicApp
 import ru.n08i40k.polytechnic.next.ui.theme.AppTheme
+import ru.n08i40k.polytechnic.next.utils.app
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -44,9 +42,6 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun createNotificationChannels() {
-        if (!hasNotificationPermission())
-            return
-
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
         createNotificationChannel(
@@ -63,37 +58,33 @@ class MainActivity : ComponentActivity() {
             NotificationChannels.APP_UPDATE
         )
 
-//        createNotificationChannel(
-//            notificationManager,
-//            getString(R.string.lesson_view_channel_name),
-//            getString(R.string.lesson_view_channel_description),
-//            NotificationChannels.LESSON_VIEW
-//        )
+        createNotificationChannel(
+            notificationManager,
+            getString(R.string.day_view_channel_name),
+            getString(R.string.day_view_channel_description),
+            NotificationChannels.DAY_VIEW
+        )
     }
 
-    private val requestPermissionLauncher =
+    private val notificationRPL =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             if (it) createNotificationChannels()
         }
 
-    private fun askNotificationPermission() {
-        if (hasNotificationPermission())
+    private fun setupNotifications() {
+        if (app.hasNotificationPermission) {
+            createNotificationChannels()
             return
+        }
 
-        requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        notificationRPL.launch(Manifest.permission.POST_NOTIFICATIONS)
     }
-
-    private fun hasNotificationPermission(): Boolean =
-        (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
-                || ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-                == PackageManager.PERMISSION_GRANTED)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        askNotificationPermission()
-        createNotificationChannels()
+        setupNotifications()
 
         lifecycleScope.launch {
             settings.data.first()

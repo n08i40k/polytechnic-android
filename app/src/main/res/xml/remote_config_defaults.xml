@@ -2,7 +2,7 @@
 <defaults>
   <entry>
     <key>serverVersion</key>
-    <value>2.2.2</value>
+    <value>3.0.1</value>
   </entry>
   <entry>
     <key>linkUpdateDelay</key>
@@ -10,7 +10,7 @@
   </entry>
   <entry>
     <key>minVersion</key>
-    <value>2.0.1</value>
+    <value>3.0.0</value>
   </entry>
   <entry>
     <key>telegramLink</key>
@@ -22,10 +22,10 @@
   </entry>
   <entry>
     <key>downloadLink</key>
-    <value>https://t.me/polytechnic_next/68</value>
+    <value>https://t.me/polytechnic_next/99</value>
   </entry>
   <entry>
     <key>currVersion</key>
-    <value>2.2.1</value>
+    <value>3.1.0</value>
   </entry>
 </defaults>
