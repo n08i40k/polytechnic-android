@@ -19,7 +19,7 @@ protobufLite = "3.0.1"
 volley = "1.2.1"
 datastore = "1.1.2"
 navigationCompose = "2.8.6"
-googleFirebaseCrashlytics = "3.0.2"
+googleFirebaseCrashlytics = "3.0.3"
 workRuntime = "2.10.0"
 vkid = "2.2.2"
 
