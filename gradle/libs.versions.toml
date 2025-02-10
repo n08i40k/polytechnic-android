@@ -52,7 +52,7 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltA
 androidx-datastore = { group ="androidx.datastore", name = "datastore", version.ref="datastore"}
 protobuf-lite = { module = "com.google.protobuf:protobuf-lite", version.ref = "protobufLite" }
 
-kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.6.1" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.6.2" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
 
