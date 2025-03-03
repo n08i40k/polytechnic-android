@@ -59,7 +59,7 @@ volley = { group = "com.android.volley", name = "volley", version.ref = "volley"
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
-firebase-analytics = { module = "com.google.firebase:firebase-analytics", version = "22.2.0" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics", version = "22.3.0" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version = "19.4.0" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version = "24.1.0" }
 firebase-config = { group = "com.google.firebase", name = "firebase-config", version = "22.1.0" }
