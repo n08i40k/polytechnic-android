@@ -46,8 +46,8 @@ android {
         applicationId = "ru.n08i40k.polytechnic.next"
         minSdk = 26
         targetSdk = 35
-        versionCode = 28
-        versionName = "3.1.1"
+        versionCode = 29
+        versionName = "3.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -136,6 +136,7 @@ dependencies {
     implementation(libs.kotlinx.datetime)
 
     // default
+    implementation(libs.androidx.runtime.tracing)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

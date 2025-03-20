@@ -1,4 +1,4 @@
-package ru.n08i40k.polytechnic.next.ui.screen.schedule
+package ru.n08i40k.polytechnic.next.ui.widgets.schedule
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,12 +23,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.n08i40k.polytechnic.next.CacheDate
 import ru.n08i40k.polytechnic.next.R
+import ru.n08i40k.polytechnic.next.ui.screen.schedule.PaskhalkoDialog
 import ru.n08i40k.polytechnic.next.ui.widgets.ExpandableCard
 import ru.n08i40k.polytechnic.next.ui.widgets.ExpandableCardTitle
 import ru.n08i40k.polytechnic.next.utils.*
 import java.util.Date
-
-val expanded = mutableStateOf(false)
 
 @Preview(showBackground = true)
 @Composable
@@ -34,7 +35,7 @@ fun UpdateInfo(
     lastUpdateAt: Long = 0,
     cacheDate: CacheDate = CacheDate.newBuilder().build()
 ) {
-    var expanded by remember { expanded }
+    var expanded by remember { mutableStateOf(false) }
 
     val format = "HH:mm:ss dd.MM.yyyy"
 
@@ -44,6 +45,7 @@ fun UpdateInfo(
 
     ExpandableCard(
         expanded = expanded,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         onExpandedChange = { expanded = !expanded },
         title = { ExpandableCardTitle(stringResource(R.string.update_info_header)) }
     ) {

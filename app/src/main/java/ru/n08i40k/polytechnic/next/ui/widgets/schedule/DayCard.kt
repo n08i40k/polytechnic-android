@@ -1,19 +1,23 @@
 package ru.n08i40k.polytechnic.next.ui.widgets.schedule
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContent
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -21,9 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.delay
@@ -33,8 +35,8 @@ import kotlinx.datetime.LocalDateTime
 import ru.n08i40k.polytechnic.next.R
 import ru.n08i40k.polytechnic.next.model.Day
 import ru.n08i40k.polytechnic.next.model.Lesson
-import ru.n08i40k.polytechnic.next.model.LessonType
 import ru.n08i40k.polytechnic.next.repository.schedule.impl.MockScheduleRepository
+import ru.n08i40k.polytechnic.next.ui.theme.AppTheme
 import ru.n08i40k.polytechnic.next.utils.dateTime
 import ru.n08i40k.polytechnic.next.utils.now
 
@@ -75,82 +77,42 @@ private fun getCurrentLessonIdx(day: Day?): Flow<Int> {
     return value
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
+@Composable
+private fun DayCardPreview() {
+    AppTheme {
+        Surface(
+            Modifier
+                .fillMaxSize()
+                .windowInsetsPadding(WindowInsets.safeContent.only(WindowInsetsSides.Top))
+        ) {
+            DayCard(Modifier, MockScheduleRepository.exampleTeacher.days[0]) {}
+        }
+    }
+}
+
 @Composable
 fun DayCard(
     modifier: Modifier = Modifier,
-    day: Day = MockScheduleRepository.exampleTeacher.days[0],
-    onLessonClick: (Lesson) -> Unit = {},
+    day: Day,
+    onLessonClick: (Lesson) -> Unit,
 ) {
     val offset = remember(day) { getDayOffset(day) }
-
-    val defaultCardColors = CardDefaults.cardColors(
-        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-    )
-    val customCardColors = CardDefaults.cardColors(
-        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-        contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-    )
-    val noneCardColors = CardDefaults.cardColors(
-        containerColor = MaterialTheme.colorScheme.primaryContainer,
-        contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-    )
-    val examCardColors = CardDefaults.cardColors(
-        containerColor = MaterialTheme.colorScheme.errorContainer,
-        contentColor = MaterialTheme.colorScheme.onErrorContainer,
-    )
 
     Card(
         modifier,
         colors = CardDefaults.cardColors(
-            containerColor = when (offset) {
-                DayOffset.TODAY -> MaterialTheme.colorScheme.primaryContainer
-                else            -> MaterialTheme.colorScheme.secondaryContainer
-            }
-        ),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.inverseSurface)
-    ) {
-        Text(
-            day.name,
-            Modifier.fillMaxWidth(),
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleLarge
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
         )
-
-        day.street?.let {
-            Text(
-                it,
-                Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-            )
-        }
-
-        if (offset != DayOffset.OTHER) {
-            Text(
-                stringResource(
-                    when (offset) {
-                        DayOffset.YESTERDAY -> R.string.yesterday
-                        DayOffset.TODAY     -> R.string.today
-                        DayOffset.TOMORROW  -> R.string.tomorrow
-                        DayOffset.OTHER     -> throw RuntimeException()
-                    }
-                ),
-                Modifier.fillMaxWidth(),
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.bodyMedium,
-            )
-        }
-
+    ) {
         val currentLessonIndex by getCurrentLessonIdx(if (offset == DayOffset.TODAY) day else null)
             .collectAsStateWithLifecycle(0)
 
         Column(
             Modifier
                 .fillMaxWidth()
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(rememberScrollState())
+                .padding(10.dp),
             Arrangement.spacedBy(0.5.dp)
         ) {
             if (day.lessons.isEmpty()) {
@@ -159,36 +121,10 @@ fun DayCard(
             }
 
             for (lessonIndex in day.lessons.indices) {
-                HorizontalDivider(
-                    thickness = 1.dp,
-                    color = MaterialTheme.colorScheme.inversePrimary
-                )
-
                 val lesson = day.lessons[lessonIndex]
 
-                val cardColors = when (lesson.type) {
-                    LessonType.DEFAULT          -> defaultCardColors
-                    LessonType.ADDITIONAL       -> noneCardColors
-                    LessonType.BREAK            -> noneCardColors
-                    LessonType.CONSULTATION     -> customCardColors
-                    LessonType.INDEPENDENT_WORK -> customCardColors
-                    LessonType.EXAM             -> examCardColors
-                    LessonType.EXAM_WITH_GRADE  -> examCardColors
-                    LessonType.EXAM_DEFAULT     -> examCardColors
-                }
-
-                Box(
-                    Modifier
-                        .clickable { onLessonClick(lesson) }
-                        .background(cardColors.containerColor)
-                ) {
-                    val modifier =
-                        if (lessonIndex == currentLessonIndex)
-                            Modifier.border(BorderStroke(1.dp, MaterialTheme.colorScheme.error))
-                        else
-                            Modifier
-
-                    LessonRow(modifier, lesson, cardColors)
+                Box(Modifier.clickable { onLessonClick(lesson) }) {
+                    LessonRow(modifier, lesson, lessonIndex == currentLessonIndex)
                 }
             }
         }

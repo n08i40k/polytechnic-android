@@ -67,7 +67,7 @@
     <string name="auth_error_disallowed_role">Пожалуйста, используйте другую роль.</string>
     <string name="sign_in_manual">По имени пользователя</string>
     <string name="updater_support_end">Поддержка версий ниже %1$s прекращена!</string>
-    <string name="last_server_schedule_update">Последнее обновление расписания</string>
+    <string name="last_server_schedule_update">Расписание</string>
     <string name="teacher_name">ФИО преподавателя</string>
     <string name="updater_body">Желаете ли вы обновиться до последней версии?</string>
     <string name="updater_new_version">Вышла новая версия приложения!</string>
@@ -76,8 +76,8 @@
     <string name="updater_update">ОБНОВИТЬ</string>
     <string name="updater_suppress">ЗАГЛУШИТЬ</string>
     <string name="update_info_header">Дополнительная информация</string>
-    <string name="last_local_update">Последнее локальное обновление</string>
-    <string name="last_server_cache_update">Последнее обновление кеша</string>
+    <string name="last_local_update">Локально</string>
+    <string name="last_server_cache_update">Кеш</string>
     <string name="download_update">Скачать обновление</string>
     <string name="telegram_channel">Телеграм канал</string>
     <string name="schedule_update_title">Расписание обновлено!</string>
@@ -107,4 +107,13 @@
     <string name="extra_info_duration">"Длительность: "</string>
     <string name="extra_info_duration_second">С %1$s до %2$s (%3$d ч. %4$d мин.)</string>
     <string name="extra_info_type">"Тип: "</string>
+    <string name="minutes_full">минут</string>
+    <string name="only_for_second">Только у второй</string>
+    <string name="only_for_first">Только у первой</string>
+    <string name="week_bar_monday">Пн</string>
+    <string name="week_bar_tuesday">Вт</string>
+    <string name="week_bar_wednesday">Ср</string>
+    <string name="week_bar_thursday">Чт</string>
+    <string name="week_bar_friday">Пт</string>
+    <string name="week_bar_saturday">Сб</string>
 </resources>

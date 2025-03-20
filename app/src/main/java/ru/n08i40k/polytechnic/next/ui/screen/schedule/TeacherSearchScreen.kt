@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -28,6 +29,7 @@ import ru.n08i40k.polytechnic.next.ui.model.SearchUiState
 import ru.n08i40k.polytechnic.next.ui.model.SearchViewModel
 import ru.n08i40k.polytechnic.next.ui.widgets.LoadingContent
 import ru.n08i40k.polytechnic.next.ui.widgets.schedule.SchedulePager
+import ru.n08i40k.polytechnic.next.ui.widgets.schedule.UpdateInfo
 import ru.n08i40k.polytechnic.next.ui.widgets.selector.TeacherNameSelector
 import ru.n08i40k.polytechnic.next.utils.rememberUpdatedLifecycleOwner
 
@@ -82,11 +84,10 @@ fun TeacherSearchScreen(viewModel: SearchViewModel) {
 
         when (uiState) {
             is SearchUiState.HasData -> {
-                Column {
+                Column(Modifier.padding(20.dp), Arrangement.spacedBy(10.dp)) {
                     val data = uiState as SearchUiState.HasData
 
                     UpdateInfo(data.lastUpdateAt, data.cacheDate)
-                    Spacer(Modifier.height(10.dp))
                     SchedulePager(data.teacher)
                 }
             }

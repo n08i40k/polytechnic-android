@@ -10,7 +10,6 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,17 +31,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun ExpandableCard(
     modifier: Modifier = Modifier,
     colors: CardColors = CardDefaults.cardColors(),
-    border: BorderStroke = BorderStroke(
-        Dp.Hairline,
-        MaterialTheme.colorScheme.inverseSurface
-    ),
     expanded: Boolean = false,
     onExpandedChange: () -> Unit,
     title: @Composable () -> Unit,
@@ -61,8 +55,7 @@ fun ExpandableCard(
             onExpandedChange()
             transitionState.targetState = expanded
         },
-        colors = colors,
-        border = border
+        colors = colors
     ) {
         Column {
             ExpandableCardHeader(title, transition)
@@ -76,15 +69,10 @@ fun ExpandableCard(
     modifier: Modifier = Modifier,
     title: @Composable () -> Unit,
     colors: CardColors = CardDefaults.cardColors(),
-    border: BorderStroke = BorderStroke(
-        Dp.Hairline,
-        MaterialTheme.colorScheme.inverseSurface
-    ),
 ) {
     Card(
         modifier = modifier,
-        colors = colors,
-        border = border
+        colors = colors
     ) {
         ExpandableCardHeader(title, null)
     }

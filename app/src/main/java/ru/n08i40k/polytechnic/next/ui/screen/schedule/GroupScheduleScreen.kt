@@ -2,9 +2,8 @@ package ru.n08i40k.polytechnic.next.ui.screen.schedule
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -24,6 +23,7 @@ import ru.n08i40k.polytechnic.next.ui.model.GroupUiState
 import ru.n08i40k.polytechnic.next.ui.model.GroupViewModel
 import ru.n08i40k.polytechnic.next.ui.widgets.LoadingContent
 import ru.n08i40k.polytechnic.next.ui.widgets.schedule.SchedulePager
+import ru.n08i40k.polytechnic.next.ui.widgets.schedule.UpdateInfo
 import ru.n08i40k.polytechnic.next.utils.rememberUpdatedLifecycleOwner
 
 @Composable
@@ -62,11 +62,10 @@ fun GroupScheduleScreen(viewModel: GroupViewModel) {
     ) {
         when (uiState) {
             is GroupUiState.HasData -> {
-                Column {
+                Column(Modifier.padding(20.dp), Arrangement.spacedBy(10.dp)) {
                     val data = uiState as GroupUiState.HasData
 
                     UpdateInfo(data.lastUpdateAt, data.cacheDate)
-                    Spacer(Modifier.height(10.dp))
                     SchedulePager(data.group)
                 }
             }

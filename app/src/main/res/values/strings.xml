@@ -107,4 +107,13 @@
     <string name="extra_info_duration">"Duration: "</string>
     <string name="extra_info_duration_second">From %1$s to %2$s (%3$d h. %4$d min.)</string>
     <string name="extra_info_type">"Type: "</string>
+    <string name="minutes_full">minutes</string>
+    <string name="only_for_second">Only for second</string>
+    <string name="only_for_first">Only for first</string>
+    <string name="week_bar_tuesday">Tue</string>
+    <string name="week_bar_wednesday">Wed</string>
+    <string name="week_bar_thursday">Thu</string>
+    <string name="week_bar_friday">Fri</string>
+    <string name="week_bar_saturday">Sat</string>
+    <string name="week_bar_monday">Mon</string>
 </resources>
