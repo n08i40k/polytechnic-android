@@ -100,4 +100,11 @@
     <string name="day_view_end_description">Ура, можно идти домой! Наверное :(</string>
     <string name="day_view_channel_name">Текущая пара</string>
     <string name="day_view_channel_description">Отображает текущую пару или перемену в уведомлении</string>
+    <string name="extra_info_lesson_name">"Название: "</string>
+    <string name="extra_info_teacher">"Преподаватель: "</string>
+    <string name="extra_info_teacher_second">%1$s в %2$s каб.</string>
+    <string name="extra_info_teacher_second_subgroup">%1$s в %2$s каб. [подгруппа - %3$d]</string>
+    <string name="extra_info_duration">"Длительность: "</string>
+    <string name="extra_info_duration_second">С %1$s до %2$s (%3$d ч. %4$d мин.)</string>
+    <string name="extra_info_type">"Тип: "</string>
 </resources>

@@ -8,7 +8,7 @@ import androidx.work.WorkerParameters
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import ru.n08i40k.polytechnic.next.app.appContainer
-import ru.n08i40k.polytechnic.next.settings.settings
+import ru.n08i40k.polytechnic.next.proto.settings
 import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 

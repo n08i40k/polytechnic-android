@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_package = "ru.n08i40k.polytechnic.next";
+option java_multiple_files = true;
+
+message CacheResponse {
+  string hash = 1;
+  string data = 2;
+}
+
+message CacheDate {
+  int64 cache = 1;
+  int64 schedule = 2;
+}
+
+message Cache {
+  map<string, CacheResponse> storage = 4;
+  CacheDate date = 5;
+}

@@ -5,17 +5,18 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import ru.n08i40k.polytechnic.next.CachedResponse
-import ru.n08i40k.polytechnic.next.UpdateDates
+import ru.n08i40k.polytechnic.next.CacheDate
+import ru.n08i40k.polytechnic.next.CacheResponse
 import ru.n08i40k.polytechnic.next.app.AppContainer
+import ru.n08i40k.polytechnic.next.proto.cache
 import ru.n08i40k.polytechnic.next.repository.cache.NetworkCacheRepository
-import ru.n08i40k.polytechnic.next.settings.settings
 import javax.inject.Inject
 
 class LocalNetworkCacheRepository
 @Inject constructor(private val appContainer: AppContainer) : NetworkCacheRepository {
-    private val cacheMap: MutableMap<String, CachedResponse> = mutableMapOf()
-    private var updateDates: UpdateDates = UpdateDates.newBuilder().build()
+    private val cacheMap: MutableMap<String, CacheResponse> = mutableMapOf()
+    private var cacheDate: CacheDate = CacheDate.newBuilder().build()
+
     private var hash: String? = null
 
     private val context get() = appContainer.context
@@ -26,14 +27,14 @@ class LocalNetworkCacheRepository
         runBlocking {
             cacheMap.putAll(
                 context
-                    .settings
+                    .cache
                     .data
-                    .map { settings -> settings.cacheStorageMap }.first()
+                    .map { it.storageMap }.first()
             )
         }
     }
 
-    override suspend fun get(url: String): CachedResponse? {
+    override suspend fun get(url: String): CacheResponse? {
         // Если кешированного ответа нет, то возвращаем null
         // Если хеши не совпадают и локальный хеш присутствует, то возвращаем null
 
@@ -49,7 +50,7 @@ class LocalNetworkCacheRepository
         if (hash == null)
             throw IllegalStateException("Не установлен хеш!")
 
-        cacheMap[url] = CachedResponse
+        cacheMap[url] = CacheResponse
             .newBuilder()
             .setHash(this.hash)
             .setData(data)
@@ -83,21 +84,21 @@ class LocalNetworkCacheRepository
         }
     }
 
-    override suspend fun getUpdateDates(): UpdateDates {
-        return this.updateDates
+    override suspend fun getUpdateDates(): CacheDate {
+        return this.cacheDate
     }
 
     override suspend fun setUpdateDates(cache: Long, schedule: Long) {
-        updateDates = UpdateDates
+        cacheDate = CacheDate
             .newBuilder()
             .setCache(cache)
             .setSchedule(schedule).build()
 
         withContext(Dispatchers.IO) {
-            context.settings.updateData {
+            context.cache.updateData {
                 it
                     .toBuilder()
-                    .setUpdateDates(updateDates)
+                    .setDate(cacheDate)
                     .build()
             }
         }
@@ -106,10 +107,10 @@ class LocalNetworkCacheRepository
 
     private suspend fun save() {
         withContext(Dispatchers.IO) {
-            context.settings.updateData {
+            context.cache.updateData {
                 it
                     .toBuilder()
-                    .putAllCacheStorage(cacheMap)
+                    .putAllStorage(cacheMap)
                     .build()
             }
         }

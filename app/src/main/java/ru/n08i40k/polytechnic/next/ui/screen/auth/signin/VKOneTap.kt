@@ -8,7 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.runBlocking
 import ru.n08i40k.polytechnic.next.network.request.auth.AuthSignInVK
 import ru.n08i40k.polytechnic.next.network.unwrapException
-import ru.n08i40k.polytechnic.next.settings.settings
+import ru.n08i40k.polytechnic.next.proto.settings
 import ru.n08i40k.polytechnic.next.ui.widgets.OneTapComplete
 import java.util.logging.Logger
 

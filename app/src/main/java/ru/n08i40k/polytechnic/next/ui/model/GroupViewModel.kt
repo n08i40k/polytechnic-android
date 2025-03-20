@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.n08i40k.polytechnic.next.UpdateDates
+import ru.n08i40k.polytechnic.next.CacheDate
 import ru.n08i40k.polytechnic.next.app.AppContainer
 import ru.n08i40k.polytechnic.next.model.GroupOrTeacher
 import ru.n08i40k.polytechnic.next.utils.MyResult
@@ -25,7 +25,7 @@ sealed interface GroupUiState {
 
     data class HasData(
         val group: GroupOrTeacher,
-        val updateDates: UpdateDates,
+        val cacheDate: CacheDate,
         val lastUpdateAt: Long,
         override val isLoading: Boolean
     ) : GroupUiState
@@ -33,7 +33,7 @@ sealed interface GroupUiState {
 
 private data class GroupViewModelState(
     val group: GroupOrTeacher? = null,
-    val updateDates: UpdateDates? = null,
+    val updateDates: CacheDate? = null,
     val lastUpdateAt: Long = 0,
     val isLoading: Boolean = false
 ) {

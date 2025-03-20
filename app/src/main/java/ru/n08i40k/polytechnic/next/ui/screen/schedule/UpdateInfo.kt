@@ -19,8 +19,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ru.n08i40k.polytechnic.next.CacheDate
 import ru.n08i40k.polytechnic.next.R
-import ru.n08i40k.polytechnic.next.UpdateDates
 import ru.n08i40k.polytechnic.next.ui.widgets.ExpandableCard
 import ru.n08i40k.polytechnic.next.ui.widgets.ExpandableCardTitle
 import ru.n08i40k.polytechnic.next.utils.*
@@ -32,15 +32,15 @@ val expanded = mutableStateOf(false)
 @Composable
 fun UpdateInfo(
     lastUpdateAt: Long = 0,
-    updateDates: UpdateDates = UpdateDates.newBuilder().build()
+    cacheDate: CacheDate = CacheDate.newBuilder().build()
 ) {
     var expanded by remember { expanded }
 
     val format = "HH:mm:ss dd.MM.yyyy"
 
     val currentDate = Date(lastUpdateAt).toString(format)
-    val cacheUpdateDate = Date(updateDates.cache).toString(format)
-    val scheduleUpdateDate = Date(updateDates.schedule).toString(format)
+    val cacheUpdateDate = Date(cacheDate.cache).toString(format)
+    val scheduleUpdateDate = Date(cacheDate.schedule).toString(format)
 
     ExpandableCard(
         expanded = expanded,

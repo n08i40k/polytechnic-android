@@ -22,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import ru.n08i40k.polytechnic.next.app.NotificationChannels
-import ru.n08i40k.polytechnic.next.settings.settings
+import ru.n08i40k.polytechnic.next.proto.settings
 import ru.n08i40k.polytechnic.next.ui.PolytechnicApp
 import ru.n08i40k.polytechnic.next.ui.theme.AppTheme
 import ru.n08i40k.polytechnic.next.utils.app

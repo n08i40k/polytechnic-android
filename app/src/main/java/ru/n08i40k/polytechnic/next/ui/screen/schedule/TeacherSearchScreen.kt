@@ -85,7 +85,7 @@ fun TeacherSearchScreen(viewModel: SearchViewModel) {
                 Column {
                     val data = uiState as SearchUiState.HasData
 
-                    UpdateInfo(data.lastUpdateAt, data.updateDates)
+                    UpdateInfo(data.lastUpdateAt, data.cacheDate)
                     Spacer(Modifier.height(10.dp))
                     SchedulePager(data.teacher)
                 }

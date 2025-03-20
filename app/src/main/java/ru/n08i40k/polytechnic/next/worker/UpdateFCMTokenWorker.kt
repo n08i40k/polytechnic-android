@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import ru.n08i40k.polytechnic.next.app.appContainer
-import ru.n08i40k.polytechnic.next.settings.settings
+import ru.n08i40k.polytechnic.next.proto.settings
 import ru.n08i40k.polytechnic.next.utils.MyResult
 import java.time.Duration
 import java.util.logging.Logger

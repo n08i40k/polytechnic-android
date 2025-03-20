@@ -5,6 +5,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import ru.n08i40k.polytechnic.next.R
+import ru.n08i40k.polytechnic.next.utils.dayMinutes
 import ru.n08i40k.polytechnic.next.utils.limit
 
 @Parcelize
@@ -17,6 +18,8 @@ data class Lesson(
     val group: String? = null,
     val subGroups: List<SubGroup>
 ) : Parcelable {
+    val duration: Int get() = time.end.dayMinutes - time.start.dayMinutes
+
     fun getShortName(context: Context): String {
         val name =
             if (type == LessonType.BREAK)

@@ -40,7 +40,7 @@ import kotlinx.coroutines.runBlocking
 import ru.n08i40k.polytechnic.next.R
 import ru.n08i40k.polytechnic.next.network.request.auth.AuthSignIn
 import ru.n08i40k.polytechnic.next.network.unwrapException
-import ru.n08i40k.polytechnic.next.settings.settings
+import ru.n08i40k.polytechnic.next.proto.settings
 import ru.n08i40k.polytechnic.next.ui.helper.PushSnackbar
 import ru.n08i40k.polytechnic.next.ui.helper.data.rememberInputValue
 import java.util.logging.Logger

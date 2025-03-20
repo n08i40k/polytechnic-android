@@ -18,9 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -34,6 +32,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.LocalDateTime
 import ru.n08i40k.polytechnic.next.R
 import ru.n08i40k.polytechnic.next.model.Day
+import ru.n08i40k.polytechnic.next.model.Lesson
 import ru.n08i40k.polytechnic.next.model.LessonType
 import ru.n08i40k.polytechnic.next.repository.schedule.impl.MockScheduleRepository
 import ru.n08i40k.polytechnic.next.utils.dateTime
@@ -80,7 +79,8 @@ private fun getCurrentLessonIdx(day: Day?): Flow<Int> {
 @Composable
 fun DayCard(
     modifier: Modifier = Modifier,
-    day: Day = MockScheduleRepository.exampleTeacher.days[0]
+    day: Day = MockScheduleRepository.exampleTeacher.days[0],
+    onLessonClick: (Lesson) -> Unit = {},
 ) {
     val offset = remember(day) { getDayOffset(day) }
 
@@ -119,9 +119,9 @@ fun DayCard(
             style = MaterialTheme.typography.titleLarge
         )
 
-        if (day.street != null) {
+        day.street?.let {
             Text(
-                day.street,
+                it,
                 Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
             )
@@ -177,12 +177,9 @@ fun DayCard(
                     LessonType.EXAM_DEFAULT     -> examCardColors
                 }
 
-                // TODO: Вернуть ExtraInfo
-                var extraInfo by remember { mutableStateOf(false) }
-
                 Box(
                     Modifier
-                        .clickable { extraInfo = true }
+                        .clickable { onLessonClick(lesson) }
                         .background(cardColors.containerColor)
                 ) {
                     val modifier =

@@ -38,7 +38,7 @@ import kotlinx.coroutines.runBlocking
 import ru.n08i40k.polytechnic.next.Application
 import ru.n08i40k.polytechnic.next.R
 import ru.n08i40k.polytechnic.next.model.UserRole
-import ru.n08i40k.polytechnic.next.settings.settings
+import ru.n08i40k.polytechnic.next.proto.settings
 import ru.n08i40k.polytechnic.next.ui.AppRoute
 import ru.n08i40k.polytechnic.next.ui.icons.AppIcons
 import ru.n08i40k.polytechnic.next.ui.icons.appicons.Filled

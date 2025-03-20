@@ -35,6 +35,8 @@ import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.runBlocking
+import ru.n08i40k.polytechnic.next.proto.cache
 import ru.n08i40k.polytechnic.next.ui.AppRoute
 import ru.n08i40k.polytechnic.next.ui.helper.PushSnackbar
 import ru.n08i40k.polytechnic.next.ui.helper.SnackbarBox
@@ -61,8 +63,7 @@ private fun FormWrapper(
                         with(localDensity) {
                             onWidthChange(it.size.width.toDp())
                         }
-                    }
-                /*.animateContentSize()*/,
+                    },
                 content = content
             )
         }
@@ -84,6 +85,8 @@ private fun AuthForm(parentNavController: NavController, pushSnackbar: PushSnack
     }
 
     val finish: () -> Unit = {
+        runBlocking { context.cache.updateData { it.toBuilder().clear().build() } }
+
         parentNavController.navigate(AppRoute.MAIN.route) {
             popUpTo(AppRoute.AUTH.route) { inclusive = true }
         }

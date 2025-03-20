@@ -65,7 +65,7 @@ fun GroupScheduleScreen(viewModel: GroupViewModel) {
                 Column {
                     val data = uiState as GroupUiState.HasData
 
-                    UpdateInfo(data.lastUpdateAt, data.updateDates)
+                    UpdateInfo(data.lastUpdateAt, data.cacheDate)
                     Spacer(Modifier.height(10.dp))
                     SchedulePager(data.group)
                 }

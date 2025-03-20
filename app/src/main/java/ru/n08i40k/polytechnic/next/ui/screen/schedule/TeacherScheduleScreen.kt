@@ -65,7 +65,7 @@ fun TeacherScheduleScreen(viewModel: TeacherViewModel) {
                 Column {
                     val data = uiState as TeacherUiState.HasData
 
-                    UpdateInfo(data.lastUpdateAt, data.updateDates)
+                    UpdateInfo(data.lastUpdateAt, data.cacheDate)
                     Spacer(Modifier.height(10.dp))
                     SchedulePager(data.teacher)
                 }

@@ -100,4 +100,11 @@
     <string name="day_view_end_description">ya ne budu eto perevidit\'</string>
     <string name="day_view_channel_name">Current lesson</string>
     <string name="day_view_channel_description">View the current lesson and breaks in notification</string>
+    <string name="extra_info_lesson_name">"Name: "</string>
+    <string name="extra_info_teacher">"Teacher: "</string>
+    <string name="extra_info_teacher_second">%1$s in %2$s cab.</string>
+    <string name="extra_info_teacher_second_subgroup">%1$s in %2$s cab. [subgroup - %3$d]</string>
+    <string name="extra_info_duration">"Duration: "</string>
+    <string name="extra_info_duration_second">From %1$s to %2$s (%3$d h. %4$d min.)</string>
+    <string name="extra_info_type">"Type: "</string>
 </resources>

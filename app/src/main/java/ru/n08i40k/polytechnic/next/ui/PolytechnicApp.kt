@@ -37,7 +37,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import ru.n08i40k.polytechnic.next.Application
 import ru.n08i40k.polytechnic.next.R
-import ru.n08i40k.polytechnic.next.settings.settings
+import ru.n08i40k.polytechnic.next.proto.settings
 import ru.n08i40k.polytechnic.next.ui.screen.MainScreen
 import ru.n08i40k.polytechnic.next.ui.screen.auth.AuthScreen
 import ru.n08i40k.polytechnic.next.utils.app

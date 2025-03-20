@@ -1,12 +1,12 @@
 package ru.n08i40k.polytechnic.next.repository.cache
 
-import ru.n08i40k.polytechnic.next.CachedResponse
-import ru.n08i40k.polytechnic.next.UpdateDates
+import ru.n08i40k.polytechnic.next.CacheDate
+import ru.n08i40k.polytechnic.next.CacheResponse
 
 interface NetworkCacheRepository {
     suspend fun put(url: String, data: String)
 
-    suspend fun get(url: String): CachedResponse?
+    suspend fun get(url: String): CacheResponse?
 
     suspend fun clear()
 
@@ -14,7 +14,7 @@ interface NetworkCacheRepository {
 
     suspend fun setHash(hash: String)
 
-    suspend fun getUpdateDates(): UpdateDates
+    suspend fun getUpdateDates(): CacheDate
 
     suspend fun setUpdateDates(cache: Long, schedule: Long)
 }

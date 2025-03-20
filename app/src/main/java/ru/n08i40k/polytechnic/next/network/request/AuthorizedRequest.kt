@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import ru.n08i40k.polytechnic.next.app.AppContainer
 import ru.n08i40k.polytechnic.next.network.RequestBase
-import ru.n08i40k.polytechnic.next.settings.settings
+import ru.n08i40k.polytechnic.next.proto.settings
 
 open class AuthorizedRequest(
     val appContainer: AppContainer,

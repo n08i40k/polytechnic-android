@@ -1,4 +1,4 @@
-package ru.n08i40k.polytechnic.next.settings
+package ru.n08i40k.polytechnic.next.proto
 
 import android.content.Context
 import androidx.datastore.core.CorruptionException
@@ -23,7 +23,7 @@ object SettingsSerializer : Serializer<Settings> {
     override suspend fun writeTo(t: Settings, output: OutputStream) = t.writeTo(output)
 }
 
-val Context.settings: DataStore<Settings> by dataStore(
+val Context.settings_v0: DataStore<Settings> by dataStore(
     fileName = "settings.pb",
     serializer = SettingsSerializer
 )

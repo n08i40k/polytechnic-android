@@ -46,8 +46,8 @@ android {
         applicationId = "ru.n08i40k.polytechnic.next"
         minSdk = 26
         targetSdk = 35
-        versionCode = 27
-        versionName = "3.1.0"
+        versionCode = 28
+        versionName = "3.1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -158,7 +158,7 @@ dependencies {
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:4.29.3"
+        artifact = "com.google.protobuf:protoc:21.0-rc-1"
     }
 
     plugins {
